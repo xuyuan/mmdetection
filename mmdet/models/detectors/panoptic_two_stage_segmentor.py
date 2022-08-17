@@ -100,8 +100,9 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
                                                  **kwargs)
         losses.update(roi_losses)
 
-        semantic_loss = self.semantic_head.forward_train(x, gt_semantic_seg)
-        losses.update(semantic_loss)
+        if gt_semantic_seg is not None:
+            semantic_loss = self.semantic_head.forward_train(x, gt_semantic_seg)
+            losses.update(semantic_loss)
 
         return losses
 
