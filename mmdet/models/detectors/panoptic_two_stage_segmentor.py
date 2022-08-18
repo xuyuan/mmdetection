@@ -3,7 +3,7 @@ import mmcv
 import numpy as np
 import torch
 
-from mmdet.core import INSTANCE_OFFSET, bbox2roi, multiclass_nms
+from mmdet.core import INSTANCE_OFFSET, bbox2roi, multiclass_nms, bbox2result
 from mmdet.core.visualization import imshow_det_bboxes
 from ..builder import DETECTORS, build_head
 from ..roi_heads.mask_heads.fcn_mask_head import _do_paste_mask
