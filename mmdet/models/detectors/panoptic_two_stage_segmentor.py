@@ -203,7 +203,7 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
                 det_bboxes[i], det_labels[i], masks[i], seg_preds[i])
             pan_results = pan_results.int().detach().cpu().numpy()
             
-            bbox_results = bbox2result(det_bboxes[i], det_labels[i], self.bbox_head.num_classes)
+            bbox_results = bbox2result(det_bboxes[i], det_labels[i], self.roi_head.bbox_head.num_classes)
             ins_results = (bbox_results, masks[i])
             
             result = dict(pan_results=pan_results,
