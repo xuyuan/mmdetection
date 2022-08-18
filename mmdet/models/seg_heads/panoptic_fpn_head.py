@@ -133,6 +133,7 @@ class PanopticFPNHead(BaseSemanticHead):
         Things classes will be merged to one class in PanopticFPN.
         """
         gt_semantic_seg = self._set_things_to_void(gt_semantic_seg)
+        print("panoptic_fpn_head gt_semantic_seg", gt_semantic_seg.min(), gt_semantic_seg.max())
         return super().loss(seg_preds, gt_semantic_seg)
 
     def init_weights(self):
