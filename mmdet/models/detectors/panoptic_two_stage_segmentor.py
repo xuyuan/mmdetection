@@ -167,6 +167,14 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
 
         return mask_results
 
+    def mask2result(self, im_mask, labels):
+        cls_segms = [[] for _ in range(self.num_things_classes)]
+        
+        N = len(im_mask)
+        for i in range(N):
+            cls_segms[labels[i]].append(im_mask[i].detach().cpu().numpy())
+        return cls_segms
+    
     def simple_test(self, img, img_metas, proposals=None, rescale=False):
         """Test without Augmentation."""
         x = self.extract_feat(img)
@@ -203,8 +211,9 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
                 det_bboxes[i], det_labels[i], masks[i], seg_preds[i])
             pan_results = pan_results.int().detach().cpu().numpy()
             
-            bbox_results = bbox2result(det_bboxes[i], det_labels[i], self.roi_head.bbox_head.num_classes)
-            ins_results = (bbox_results, masks[i])
+            bbox_results = bbox2result(det_bboxes[i], det_labels[i], self.num_things_classes)
+            mask_results = self.mask2result(masks[i], det_labels[i])
+            ins_results = (bbox_results, mask_results)
             
             
             sem_results = seg_preds[i].argmax(dim=0)
