@@ -168,7 +168,7 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
         return mask_results
 
     def mask2result(self, im_mask, labels):
-        cls_segms = [[] for _ in range(self.num_things_classes)]
+        cls_segms = [[] for _ in range(self.num_classes)]
         
         N = len(im_mask)
         for i in range(N):
