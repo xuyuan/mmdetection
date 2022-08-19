@@ -207,8 +207,8 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
             ins_results = (bbox_results, masks[i])
             
             
-            seg_results = seg_preds[i].argmax(dim=0)
-            seg_results = seg_results + self.panoptic_fusion_head.num_things_classes
+            sem_results = seg_preds[i].argmax(dim=0)
+            sem_results = sem_results + self.panoptic_fusion_head.num_things_classes
             
             result = dict(pan_results=pan_results,
                           ins_results=ins_results,
