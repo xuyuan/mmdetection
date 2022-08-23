@@ -215,7 +215,7 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
         for i in range(len(det_bboxes)):
             result = {}
             
-            if self.roi_head.with_mask:
+            if self.with_semantic_head:
                 sem_results = seg_preds[i].argmax(dim=0)
                 sem_results = sem_results + self.semantic_head.num_things_classes
                 result['sem_results'] = sem_results
