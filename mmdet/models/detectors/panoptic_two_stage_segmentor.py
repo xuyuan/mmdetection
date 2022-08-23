@@ -199,7 +199,7 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
             det_bboxes.append(det_bbox)
             det_labels.append(det_label)
 
-        if self.roi_head.with_mask():
+        if self.roi_head.with_mask:
             mask_results = self.simple_test_mask(
                 x, img_metas, det_bboxes, det_labels, rescale=rescale)
             masks = mask_results['masks']
@@ -210,19 +210,19 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
         for i in range(len(det_bboxes)):
             result = {}
             
-            if self.roi_head.with_mask():
+            if self.roi_head.with_mask:
                 sem_results = seg_preds[i].argmax(dim=0)
                 sem_results = sem_results + self.semantic_head.num_things_classes
                 result['sem_results'] = sem_results
             
-            if self.with_panoptic_fusion_head():
+            if self.with_panoptic_fusion_head:
                 pan_results = self.panoptic_fusion_head.simple_test(
                     det_bboxes[i], det_labels[i], masks[i], seg_preds[i])
                 pan_results = pan_results.int().detach().cpu().numpy()
                 result['pan_results'] = pan_results
             
             bbox_results = bbox2result(det_bboxes[i], det_labels[i], self.num_things_classes)
-            if self.roi_head.with_mask():
+            if self.roi_head.with_mask:
                 mask_results = self.mask2result(masks[i], det_labels[i])
                 result['ins_results'] = (bbox_results, mask_results)
             else:
