@@ -36,6 +36,11 @@ class TwoStagePanopticSegmentor(TwoStageDetector):
                              test_cfg, pretrained, init_cfg)
         if semantic_head is not None:
             self.semantic_head = build_head(semantic_head)
+            self.num_things_classes = self.semantic_head.\
+                num_things_classes
+            self.num_stuff_classes = self.semantic_head.\
+                num_stuff_classes
+            self.num_classes = self.num_things_classes + self.num_stuff_classes
         if panoptic_fusion_head is not None:
             panoptic_cfg = test_cfg.panoptic if test_cfg is not None else None
             panoptic_fusion_head_ = panoptic_fusion_head.deepcopy()
